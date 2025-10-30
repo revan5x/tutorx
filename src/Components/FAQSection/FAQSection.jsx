@@ -11,11 +11,11 @@ const FAQSection = () => {
         <div className="collapse collapse-arrow bg-base-200">
           <input type="radio" name="faq-accordion" defaultChecked />
           <div className="collapse-title  text-xl font-medium">
-            What is TutorSphere?
+            What is TutorX?
           </div>
           <div className="collapse-content">
             <p>
-              TutorSphere is an online platform that connects students with
+              TutorX is an online platform that connects students with
               expert tutors in various subjects, helping them achieve academic
               success through personalized guidance.
             </p>

@@ -120,7 +120,7 @@ function Navbar({ currentUser }) {
               {linkCenter}
             </ul>
           </div>
-          <a className="font-bold  text-2xl">TutorSphere</a>
+          <a className="font-bold  text-2xl">TutorX</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{linkCenter}</ul>

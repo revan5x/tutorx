@@ -112,7 +112,7 @@ function SignIn() {
         <div className="lg:w-1/2 w-full bg-blue-500 text-white flex flex-col justify-center items-center py-10 px-8">
           <h2 className="text-4xl font-bold">Welcome Back!</h2>
           <p className="text-sm mt-4 text-center">
-            Sign in to <span className="font-bold">TutorSphere</span> and continue your journey of learning. If you don’t have an account, register now!
+            Sign in to <span className="font-bold">TutorX</span> and continue your journey of learning. If you don’t have an account, register now!
           </p>
         </div>
 

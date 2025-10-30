@@ -119,7 +119,7 @@ const ContactUs = () => {
                 <strong className="">Email:</strong>
                 <span className=" ">
                   {" "}
-                  tutorsphere@gmail.com
+                  TutorX@gmail.com
                 </span>
               </li>
               <li>

@@ -14,7 +14,7 @@ function Footer() {
       <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo and Description */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">TutorSphere</h2>
+          <h2 className="text-2xl font-bold mb-4">TutorX</h2>
           <p>
             Your trusted platform for finding expert tutors and personalized
             learning experiences. Start your journey to success with us today!
@@ -64,7 +64,7 @@ function Footer() {
         <div>
           <h3 className="text-xl font-semibold mb-4">Contact Us</h3>
           <p>
-            Email: <a href="mailto:support@tutorsphere.com" className="text-blue-400 hover:underline">support@tutorsphere.com</a>
+            Email: <a href="mailto:support@tutorX.com" className="text-blue-400 hover:underline">support@tutorX.com</a>
           </p>
           <p>Phone: +123 456 7890</p>
           <p>Location: 123 Tutor Lane, Knowledge City</p>
@@ -111,10 +111,10 @@ function Footer() {
           className="w-full max-w-3xl mx-auto"
         >
           <SwiperSlide>
-            <p className="text-center text-lg">"TutorSphere has transformed my learning journey! Highly recommend it to everyone."</p>
+            <p className="text-center text-lg">"TutorX has transformed my learning journey! Highly recommend it to everyone."</p>
           </SwiperSlide>
           <SwiperSlide>
-            <p className="text-center text-lg">"Finding the right tutor was never this easy! Thank you TutorSphere!"</p>
+            <p className="text-center text-lg">"Finding the right tutor was never this easy! Thank you TutorX!"</p>
           </SwiperSlide>
           <SwiperSlide>
             <p className="text-center text-lg">"Excellent platform with top-notch tutors. Absolutely worth it!"</p>
@@ -124,7 +124,7 @@ function Footer() {
 
       {/* Bottom Footer */}
       <div className="mt-10 border-t border-gray-700 pt-5 text-center">
-        <p>&copy; 2024 TutorSphere. All Rights Reserved.</p>
+        <p>&copy; 2024 TutorX. All Rights Reserved.</p>
       </div>
     </footer>
   );
