@@ -7,9 +7,6 @@ Similar platforms include **Preply** and **Italki**, but we aim to offer an even
 
 ---
 
-## 🌟 Live Site
-🔗 **[Visit the Website](https://turtorsphere.web.app/)**
-
 ---
 
 ## 🔑 Key Features
