@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Bannar from "./../../Components/Bannar/Bannar";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
-import LangCategories from "../../Components/LangCategories/LangCategories";
+
 import Stats from './../../Components/Stats/Stats';
 import TopTutors from './../../Components/TopTutors/TopTutors';
 import Testimonials from './../../Components/Testimonial/Testimonials';
@@ -27,7 +27,7 @@ function Home() {
     <div className="min-h-screen">
       <Bannar></Bannar>
       <Stats></Stats>
-      <LangCategories languegesCategory={languegesCategory}></LangCategories>
+     
       <TopTutors></TopTutors>
       <HowItWorks></HowItWorks>
       <Testimonials></Testimonials>
