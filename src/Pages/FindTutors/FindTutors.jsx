@@ -11,18 +11,20 @@ function FindTutors() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
+
   useEffect(() => {
     if (user && user.email) {
       axiosSecure.get(`/tutors/email/${user.email}`).then((res) => {
-        // console.log(res.data)
+        // You can handle responses here if needed
       });
     }
   }, [user, user.email]);
+
   useEffect(() => {
     // Only fetch all tutors if categoriesTutors is empty
     if (!categoriesTutors || categoriesTutors.length === 0) {
       setLoading(true);
-      fetch(`https://tutor-sphere-server-side.vercel.app/tutors`)
+      fetch(`http://localhost:5000/api/tutors`)
         .then((res) => res.json())
         .then((data) => {
           setTutors(data);
@@ -36,9 +38,7 @@ function FindTutors() {
     if (search) {
       setLoading(true);
       const timeoutId = setTimeout(() => {
-        fetch(
-          `https://tutor-sphere-server-side.vercel.app/tutors?search=${search}`
-        )
+        fetch(`http://localhost:5000/api/tutors?search=${search}`)
           .then((res) => res.json())
           .then((data) => {
             setTutors(data);
@@ -52,7 +52,7 @@ function FindTutors() {
 
   return (
     <div>
-      <Bannar></Bannar>
+      <Bannar />
       <div className="min-h-[450px] p-6 space-y-4">
         <h1 className="text-2xl font-bold text-center mb-6">
           {categoriesTutors && categoriesTutors.length > 0
@@ -111,7 +111,7 @@ function FindTutors() {
                   <h2 className="text-md font-semibold">{"Tutor Name"}</h2>
                   <div className="flex flex-col justify-between text-sm mt-1">
                     <p>🌐 Language: {tutor?.language || "N/A"}</p>
-                    <p>💰 {tutor?.price ? `BDT ${tutor.price}` : "Free"}</p>
+                    <p>💰 {tutor?.price ? `₹${tutor.price}` : "Free"}</p>
                     <p>Review: {tutor?.review || "No reviews yet"}</p>
                   </div>
                   <p className="text-sm  mt-1">
