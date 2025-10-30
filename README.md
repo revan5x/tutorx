@@ -29,8 +29,8 @@ Visit the site: [https://tutorx.vercel.app](https://tutorx.vercel.app)
 
 ## Author & Credits
 
-Created and customized by [Your Name](https://github.com/revan5x).
+Created and customized by [REVANth](https://github.com/revan5x).
 Special thanks to open source contributors.
 
-## How to Run Locally
+
 
