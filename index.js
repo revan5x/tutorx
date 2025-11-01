@@ -4,72 +4,59 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-// CORS configuration - Allow frontend origins
-const allowedOrigins = [
-  "https://tutor-sphere-client-side.vercel.app",
-  "https://tutorx.vercel.app",
-  "http://localhost:5173",
-  "http://localhost:3000",
-  "http://localhost:5174"
-];
-
+// CORS configuration - More permissive for all Vercel deployments
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, Postman, etc.)
+    // Allow requests with no origin (mobile apps, Postman, curl, etc.)
     if (!origin) {
       return callback(null, true);
     }
     
-    // Log for debugging
-    console.log(`🔍 CORS check for origin: ${origin}`);
-    
-    // Check if origin is in allowed list
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      console.log(`✅ Allowed origin: ${origin}`);
-      callback(null, true);
-      return;
-    } 
-    
-    // Allow all Vercel deployments (more permissive)
+    // Allow all Vercel deployments (production)
     if (origin && origin.endsWith(".vercel.app")) {
-      console.log(`✅ Allowed Vercel origin: ${origin}`);
-      callback(null, true);
-      return;
+      return callback(null, true);
     }
     
-    // Allow localhost in development
+    // Allow localhost (development)
     if (origin && (origin.startsWith("http://localhost") || origin.startsWith("https://localhost"))) {
-      console.log(`✅ Allowed localhost origin: ${origin}`);
-      callback(null, true);
-      return;
+      return callback(null, true);
     }
     
-    console.log(`❌ Blocked origin: ${origin}`);
-    callback(new Error(`Not allowed by CORS. Origin: ${origin}`));
+    // Allow specific production domains
+    const allowedOrigins = [
+      "https://tutor-sphere-client-side.vercel.app",
+      "https://tutorx.vercel.app"
+    ];
+    
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    // Default: allow (most permissive for troubleshooting)
+    console.log(`⚠️ Allowing origin: ${origin}`);
+    callback(null, true);
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
+  allowedHeaders: [
+    "Content-Type", 
+    "Authorization", 
+    "X-Requested-With", 
+    "Accept", 
+    "Origin",
+    "Access-Control-Request-Method",
+    "Access-Control-Request-Headers"
+  ],
   exposedHeaders: ["Content-Length", "Content-Type"],
   preflightContinue: false,
   optionsSuccessStatus: 204
 };
-// Apply CORS middleware - must be before routes
+
+// Apply CORS middleware - MUST be before any routes
 app.use(cors(corsOptions));
 
-// Handle all preflight OPTIONS requests
-app.options("*", (req, res) => {
-  const origin = req.headers.origin;
-  if (!origin || origin.endsWith(".vercel.app") || origin.startsWith("http://localhost") || allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin || "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept, Origin");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.status(204).send();
-  } else {
-    res.status(403).send("CORS not allowed");
-  }
-});
+// Explicit OPTIONS handler for all routes (catches preflight requests)
+app.options("*", cors(corsOptions));
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
