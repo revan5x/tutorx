@@ -6,11 +6,18 @@ require("dotenv").config();
 const app = express();
 const corsOptions = {
   origin: process.env.NODE_ENV === "production" 
-    ? ["https://tutor-sphere-client-side.vercel.app"]
+    ? [
+        "https://tutor-sphere-client-side.vercel.app",
+        "https://tutorx.vercel.app",
+        "https://tutorx-*.vercel.app" // Allow all Vercel preview deployments
+      ]
     : true, // Allow all origins in development
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  exposedHeaders: ["Content-Length", "Content-Type"],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
