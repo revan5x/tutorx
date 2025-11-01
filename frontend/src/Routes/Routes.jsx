@@ -11,6 +11,7 @@ import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 import UpdateTutorial from "./../Components/UpdateTutorial/UpdateTutorial";
 import Details from "./../Components/Details/Details";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import Profile from "../Pages/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <MyBookedTutors></MyBookedTutors>
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoutes>
+            <Profile></Profile>
           </PrivateRoutes>
         ),
       },

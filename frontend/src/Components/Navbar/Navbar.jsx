@@ -130,9 +130,9 @@ function Navbar({ currentUser }) {
             <div
               tabIndex={0}
               role="button"
-              className="btn btn-ghost btn-circle avatar hover:bg-blue-600 relative group"
+              className="btn btn-ghost btn-circle avatar hover:bg-blue-600 relative group cursor-pointer"
             >
-              <div className="w-14 rounded-full">
+              <Link to={user ? "/profile" : "/signIn"} className="w-14 rounded-full">
                 <img
                   src={
                     user?.photoURL ||
@@ -140,23 +140,24 @@ function Navbar({ currentUser }) {
                     "https://via.placeholder.com/150"
                   }
                   alt="User"
+                  className="w-14 h-14 rounded-full object-cover"
                 />
                 <div className="absolute left-1/2 -translate-x-1/2 bottom-[10px] px-3 py-1 text-sm font-medium text-white/80 rounded opacity-0 group-hover:opacity-100 transition">
                   {user?.displayName || currentUser?.name || "Guest User"}
                 </div>
-              </div>
+              </Link>
             </div>
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link>
+                <Link to="/profile">
                   {user?.displayName || currentUser?.name || "Guest User"}
                 </Link>
               </li>
               <li>
-                <Link to="#">Profile</Link>
+                <Link to="/profile">Profile</Link>
               </li>
               <li>
                 <a>Settings</a>

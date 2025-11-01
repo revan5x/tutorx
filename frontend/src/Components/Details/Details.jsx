@@ -9,7 +9,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 function Details() {
   const { user } = useContext(AuthContext);
   const tutorial = useLoaderData();
-  const { name, email, image, language, price, description, review } = tutorial;
+  const { name, email, image, language, price, description, review, video, videoLink } = tutorial;
   const axiosSecure = useAxiosSecure();
   useEffect(() => {
     if (user && user.email) {
@@ -111,6 +111,62 @@ function Details() {
               {description || "No description provided."}
             </li>
           </ul>
+
+          {/* Video Section */}
+          {(video || videoLink) && (
+            <div className="mt-6">
+              <h2 className="text-lg font-semibold mb-4">Video Content</h2>
+              {videoLink ? (
+                <div className="w-full">
+                  {/* YouTube/Vimeo embed */}
+                  {videoLink.includes("youtube.com") || videoLink.includes("youtu.be") ? (
+                    <iframe
+                      className="w-full h-64 md:h-96 rounded-lg"
+                      src={
+                        videoLink.includes("youtube.com/watch?v=")
+                          ? videoLink.replace("watch?v=", "embed/")
+                          : videoLink.includes("youtu.be/")
+                          ? `https://www.youtube.com/embed/${videoLink.split("youtu.be/")[1]}`
+                          : videoLink
+                      }
+                      title="Video content"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : videoLink.includes("vimeo.com") ? (
+                    <iframe
+                      className="w-full h-64 md:h-96 rounded-lg"
+                      src={`https://player.vimeo.com/video/${videoLink.split("vimeo.com/")[1]}`}
+                      title="Video content"
+                      frameBorder="0"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <a
+                      href={videoLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      Watch Video: {videoLink}
+                    </a>
+                  )}
+                </div>
+              ) : video ? (
+                <div className="w-full">
+                  <video
+                    controls
+                    className="w-full h-auto max-h-96 rounded-lg"
+                    src={video}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              ) : null}
+            </div>
+          )}
         </div>
         <Link>
           <p
