@@ -55,8 +55,33 @@ const corsOptions = {
 // Apply CORS middleware - MUST be before any routes
 app.use(cors(corsOptions));
 
+// Additional CORS headers middleware (ensures headers are always set)
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  
+  // Set CORS headers for all requests
+  if (origin && (origin.endsWith(".vercel.app") || origin.startsWith("http://localhost") || origin.includes("localhost"))) {
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers");
+  }
+  
+  next();
+});
+
 // Explicit OPTIONS handler for all routes (catches preflight requests)
-app.options("*", cors(corsOptions));
+app.options("*", (req, res) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept, Origin, Access-Control-Request-Method, Access-Control-Request-Headers");
+    res.header("Access-Control-Max-Age", "86400"); // 24 hours
+  }
+  res.status(204).send();
+});
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
