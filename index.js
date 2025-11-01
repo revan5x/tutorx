@@ -4,14 +4,38 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
+// CORS configuration - Allow frontend origins
+const allowedOrigins = [
+  "https://tutor-sphere-client-side.vercel.app",
+  "https://tutorx.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://localhost:5174"
+];
+
 const corsOptions = {
-  origin: process.env.NODE_ENV === "production" 
-    ? [
-        "https://tutor-sphere-client-side.vercel.app",
-        "https://tutorx.vercel.app",
-        "https://tutorx-*.vercel.app" // Allow all Vercel preview deployments
-      ]
-    : true, // Allow all origins in development
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, Postman, etc.) in development
+    if (!origin && process.env.NODE_ENV !== "production") {
+      return callback(null, true);
+    }
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } 
+    // Allow Vercel preview deployments (tutorx-*.vercel.app pattern)
+    else if (origin && origin.includes("tutorx-") && origin.endsWith(".vercel.app")) {
+      callback(null, true);
+    }
+    // Allow Vercel preview deployments (tutor-sphere-client-side-*.vercel.app pattern)
+    else if (origin && origin.includes("tutor-sphere-client-side-") && origin.endsWith(".vercel.app")) {
+      callback(null, true);
+    }
+    else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
