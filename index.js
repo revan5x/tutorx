@@ -15,35 +15,51 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl, Postman, etc.) in development
-    if (!origin && process.env.NODE_ENV !== "production") {
+    // Allow requests with no origin (like mobile apps, curl, Postman, etc.)
+    if (!origin) {
       return callback(null, true);
     }
     
+    // Log for debugging
+    console.log(`🔍 CORS check for origin: ${origin}`);
+    
     // Check if origin is in allowed list
     if (allowedOrigins.indexOf(origin) !== -1) {
+      console.log(`✅ Allowed origin: ${origin}`);
       callback(null, true);
+      return;
     } 
-    // Allow Vercel preview deployments (tutorx-*.vercel.app pattern)
-    else if (origin && origin.includes("tutorx-") && origin.endsWith(".vercel.app")) {
+    
+    // Allow all Vercel deployments (more permissive)
+    if (origin && origin.endsWith(".vercel.app")) {
+      console.log(`✅ Allowed Vercel origin: ${origin}`);
       callback(null, true);
+      return;
     }
-    // Allow Vercel preview deployments (tutor-sphere-client-side-*.vercel.app pattern)
-    else if (origin && origin.includes("tutor-sphere-client-side-") && origin.endsWith(".vercel.app")) {
+    
+    // Allow localhost in development
+    if (origin && (origin.startsWith("http://localhost") || origin.startsWith("https://localhost"))) {
+      console.log(`✅ Allowed localhost origin: ${origin}`);
       callback(null, true);
+      return;
     }
-    else {
-      callback(new Error("Not allowed by CORS"));
-    }
+    
+    console.log(`❌ Blocked origin: ${origin}`);
+    callback(new Error(`Not allowed by CORS. Origin: ${origin}`));
   },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
   exposedHeaders: ["Content-Length", "Content-Type"],
   preflightContinue: false,
   optionsSuccessStatus: 204
 };
+// Apply CORS middleware
 app.use(cors(corsOptions));
+
+// Handle preflight requests explicitly
+app.options("*", cors(corsOptions));
+
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
