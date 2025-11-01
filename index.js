@@ -54,11 +54,22 @@ const corsOptions = {
   preflightContinue: false,
   optionsSuccessStatus: 204
 };
-// Apply CORS middleware
+// Apply CORS middleware - must be before routes
 app.use(cors(corsOptions));
 
-// Handle preflight requests explicitly
-app.options("*", cors(corsOptions));
+// Handle all preflight OPTIONS requests
+app.options("*", (req, res) => {
+  const origin = req.headers.origin;
+  if (!origin || origin.endsWith(".vercel.app") || origin.startsWith("http://localhost") || allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin || "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept, Origin");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.status(204).send();
+  } else {
+    res.status(403).send("CORS not allowed");
+  }
+});
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
